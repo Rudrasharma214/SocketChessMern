@@ -39,6 +39,34 @@ io.on('connection', (socket) => {
 // API Routes
 app.use('/api', apiRoutes);
 
+// Root route for debugging
+app.get('/server-status', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Chess game server is running',
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Serve static files in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
+  // Serve React app for all non-API routes
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
+  });
+} else {
+  // Development 404 handler for non-API routes
+  app.use('*', (req, res) => {
+    res.status(404).json({
+      success: false,
+      message: 'Route not found - API server running in development mode'
+    });
+  });
+}
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Server Error:', err);
@@ -48,28 +76,9 @@ app.use((err, req, res, next) => {
     error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
 });
-
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
-});
-
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
-  });
-}
 // Start server
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`🚀 Chess game server running on port ${PORT}`);
-  // console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-  // console.log(`🌐 Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
 });
 
