@@ -1,4 +1,4 @@
-const { Chess } = require('chess.js');
+import { Chess } from 'chess.js';
 
 // Game state storage (in production, use Redis or database)
 const games = new Map();
@@ -219,4 +219,4 @@ class GameManager {
   }
 }
 
-module.exports = GameManager;
+export default GameManager;

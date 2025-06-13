@@ -8,8 +8,13 @@
  * - Development server startup with enhanced logging
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ES6 module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Colors for console output
 const colors = {
@@ -27,7 +32,7 @@ function log(message, color = 'reset') {
   console.log(`${colors[color]}${message}${colors.reset}`);
 }
 
-function checkEnvironment() {
+async function checkEnvironment() {
   log('🔍 Checking environment...', 'cyan');
   
   // Check if .env file exists
@@ -44,7 +49,8 @@ NODE_ENV=development`;
   }
   
   // Load environment variables
-  require('dotenv').config({ path: envPath });
+  const dotenv = await import('dotenv');
+  dotenv.config({ path: envPath });
   
   // Validate required environment variables
   const required = ['PORT'];
@@ -86,20 +92,20 @@ function displayServerInfo() {
   log('================================\n', 'bright');
 }
 
-function startServer() {
+async function startServer() {
   log('🎯 Starting server...', 'cyan');
-  
+
   // Start the main server
-  require('../server.js');
+  await import('../server.js');
 }
 
 // Main execution
-function main() {
+async function main() {
   try {
-    checkEnvironment();
+    await checkEnvironment();
     checkDependencies();
     displayServerInfo();
-    startServer();
+    await startServer();
   } catch (error) {
     log(`❌ Startup failed: ${error.message}`, 'red');
     process.exit(1);
@@ -122,4 +128,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { main };
+export { main };

@@ -1,18 +1,25 @@
-const express = require('express');
-const http = require('http');
-require('dotenv').config();
-const path = require('path');
+import express from 'express';
+import http from 'http';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+// Configure environment variables
+dotenv.config();
+
+// ES6 module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Import configurations and controllers
-const { configureSocket } = require('./config/socket');
-const { configureCors } = require('./middleware/cors');
-const SocketController = require('./controllers/socketController');
-const apiRoutes = require('./routes/api');
+import { configureSocket } from './config/socket.js';
+import { configureCors } from './middleware/cors.js';
+import SocketController from './controllers/socketController.js';
+import apiRoutes from './routes/api.js';
 
 // Initialize Express app
 const app = express();
 const server = http.createServer(app);
-const __dirname = path.resolve();
 // Configure middleware
 app.use(configureCors());
 app.use(express.json());

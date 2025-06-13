@@ -1,4 +1,4 @@
-const cors = require('cors');
+import cors from 'cors';
 
 const corsOptions = {
   origin: process.env.CLIENT_URL || "http://localhost:5173",
@@ -11,4 +11,4 @@ const configureCors = () => {
   return cors(corsOptions);
 };
 
-module.exports = { configureCors };
+export { configureCors };

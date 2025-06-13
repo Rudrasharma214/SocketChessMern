@@ -1,6 +1,6 @@
-const express = require('express');
-const GameManager = require('../utils/gameManager');
-const { generateFriendlyGameId } = require('../config/socket');
+import express from 'express';
+import GameManager from '../utils/gameManager.js';
+import { generateFriendlyGameId } from '../config/socket.js';
 
 const router = express.Router();
 
@@ -174,4 +174,4 @@ router.use((error, req, res, next) => {
   });
 });
 
-module.exports = router;
+export default router;

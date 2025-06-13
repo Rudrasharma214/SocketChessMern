@@ -1,4 +1,4 @@
-const GameManager = require('../utils/gameManager');
+import GameManager from '../utils/gameManager.js';
 
 class GameController {
   // Create a new game
@@ -245,4 +245,4 @@ class GameController {
   }
 }
 
-module.exports = GameController;
+export default GameController;

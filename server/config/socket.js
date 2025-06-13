@@ -1,5 +1,5 @@
-const socketIo = require('socket.io');
-const crypto = require('crypto');
+import { Server } from 'socket.io';
+import crypto from 'crypto';
 
 // Generate a unique game ID
 const generateGameId = () => {
@@ -19,7 +19,7 @@ const generateFriendlyGameId = () => {
 };
 
 const configureSocket = (server) => {
-  const io = socketIo(server, {
+  const io = new Server(server, {
     cors: {
       origin: process.env.CLIENT_URL || "http://localhost:5173",
       methods: ["GET", "POST"],
@@ -31,7 +31,7 @@ const configureSocket = (server) => {
   return io;
 };
 
-module.exports = {
+export {
   configureSocket,
   generateGameId,
   generateFriendlyGameId

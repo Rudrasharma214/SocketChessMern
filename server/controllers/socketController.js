@@ -1,4 +1,5 @@
-const GameManager = require('../utils/gameManager');
+import GameManager from '../utils/gameManager.js';
+import { generateFriendlyGameId } from '../config/socket.js';
 
 class SocketController {
   constructor(io) {
@@ -41,7 +42,6 @@ class SocketController {
 
   handleCreateGame(socket, playerName, options = {}) {
     try {
-      const { generateFriendlyGameId } = require('../config/socket');
       const gameId = generateFriendlyGameId();
 
       // Create new game with options
@@ -306,4 +306,4 @@ class SocketController {
   }
 }
 
-module.exports = SocketController;
+export default SocketController;
