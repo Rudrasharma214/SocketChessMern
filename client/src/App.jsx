@@ -26,8 +26,23 @@ function App() {
   const [gameMode, setGameMode] = useState('join'); // 'create' or 'join'
   const [preferredColor, setPreferredColor] = useState(''); // 'white', 'black', or ''
 
-  const socket = useSocket('http://localhost:3001');
-  // const socket = useSocket('/api');
+  // Automatically detect server URL based on environment
+  const getServerUrl = () => {
+    // Check for environment variable first
+    if (import.meta.env.VITE_SERVER_URL) {
+      return import.meta.env.VITE_SERVER_URL;
+    }
+
+    if (import.meta.env.DEV) {
+      // Development mode - connect to local server
+      return 'http://localhost:3001';
+    } else {
+      // Production mode - connect to same origin
+      return window.location.origin;
+    }
+  };
+
+  const socket = useSocket(getServerUrl());
 
   // Load saved theme from localStorage
   useEffect(() => {
