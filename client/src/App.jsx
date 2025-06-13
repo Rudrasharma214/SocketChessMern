@@ -26,8 +26,8 @@ function App() {
   const [gameMode, setGameMode] = useState('join'); // 'create' or 'join'
   const [preferredColor, setPreferredColor] = useState(''); // 'white', 'black', or ''
 
-  // const socket = useSocket('http://localhost:3001');
-  const socket = useSocket('/api');
+  const socket = useSocket('http://localhost:3001');
+  // const socket = useSocket('/api');
 
   // Load saved theme from localStorage
   useEffect(() => {
