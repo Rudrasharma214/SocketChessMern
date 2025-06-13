@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 require('dotenv').config();
+const path = require('path');
 
 // Import configurations and controllers
 const { configureSocket } = require('./config/socket');
@@ -11,7 +12,7 @@ const apiRoutes = require('./routes/api');
 // Initialize Express app
 const app = express();
 const server = http.createServer(app);
-
+const __dirname = path.resolve();
 // Configure middleware
 app.use(configureCors());
 app.use(express.json());
